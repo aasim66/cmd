@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SMS Chat</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      background-color: #f0f0f0;
+    }
+
+    .chat-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 10px;
+      overflow-y: auto;
+      background-color: #ffffff;
+      border: 1px solid #ddd;
+    }
+
+    .message {
+      margin: 5px 0;
+      padding: 10px 15px;
+      border-radius: 20px;
+      max-width: 70%;
+      word-wrap: break-word;
+    }
+
+    .message.sent {
+      background-color: #007bff;
+      color: #fff;
+      align-self: flex-end;
+    }
+
+    .message.received {
+      background-color: #eaeaea;
+      color: #000;
+      align-self: flex-start;
+    }
+
+    .input-container {
+      display: flex;
+      padding: 10px;
+      background-color: #fff;
+      border-top: 1px solid #ddd;
+    }
+
+    .input-container input {
+      flex: 1;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      margin-right: 10px;
+    }
+
+    .input-container button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 20px;
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .input-container button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container" id="chatContainer">
+    <!-- Messages will appear here -->
+  </div>
+  <div class="input-container">
+    <input type="text" id="messageInput" placeholder="Type a message..." />
+    <button id="sendButton">Send</button>
+  </div>
+
+  <script>
+    const chatContainer = document.getElementById('chatContainer');
+    const messageInput = document.getElementById('messageInput');
+    const sendButton = document.getElementById('sendButton');
+
+    // Function to add a message to the chat
+    function addMessage(text, type) {
+      const message = document.createElement('div');
+      message.classList.add('message', type);
+      message.textContent = text;
+      chatContainer.appendChild(message);
+      chatContainer.scrollTop = chatContainer.scrollHeight; // Scroll to the bottom
+    }
+
+    // Handle send button click
+    sendButton.addEventListener('click', () => {
+      const messageText = messageInput.value.trim();
+      if (messageText !== '') {
+        addMessage(messageText, 'sent'); // Add sent message
+        messageInput.value = '';
+
+        // Simulate a reply
+        setTimeout(() => {
+          let response = '';
+
+          // Commands handling
+          if (messageText === 'help') {
+            response = `
+              Available Commands:
+              - contact number
+              - Ai
+              - time
+              - Date
+              - email Id
+            `;
+          } 
+
+          // ai hi
+          else if (messageText === 'hi') {
+            response = "Hi"
+          }
+
+          else if (messageText === 'what is your name') {
+            response = "My name  is aasim ai "
+          } 
+          
+          else if (messageText === 'i love you'){
+            response = "I Love You Baby"
+          }
+
+          else if (messageText === 'contact number'){
+            response = `
+            +91 98767**341
+            Call Me
+            `
+          }
+
+          // email
+          else if (messageText === 'email id') {
+            response  = "Email: aasimabu123@gmail.com"
+          }
+
+          else if (messageText === 'id')
+          {
+            response = "gameaasim931@game.com"
+          }
+          //--the--//
+          else if (messageText === 'about') {
+            response = 'I am Aasim, a developer and innovator.';
+          }
+
+          //time
+          else if (messageText === 'time') {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            response = `${hours}:${minutes}:${seconds}`;
+          } 
+
+          //date
+          else if (messageText === 'date') {
+            const now = new Date();
+            // Get current date (Day, Month, Year)
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+            const year = now.getFullYear();
+            // Format the response as "DD/MM/YYYY HH:MM:SS"
+            response = `${day}/${month}/${year} `;
+          }          
+          else if (messageText.startsWith('echo ')) {
+            response = messageText.slice(5); // Echo back the message
+          } 
+
+          else {
+            response = `sorry I do not understarand: ${messageText}.`;
+          }
+
+          addMessage(response, 'received'); // Add received message
+        }, 1000); // Simulate a delay for response
+      }
+    });
+
+    // Allow pressing Enter to send the message
+    messageInput.addEventListener('keypress', (event) => {
+      if (event.key === 'Enter') {
+        sendButton.click();
+      }
+    });
+  </script>
+</body>
+</html>
