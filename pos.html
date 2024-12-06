@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard </title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        title
+        {
+            color: blue;
+            background-color: burlywood;
+        }
+        /*new we*/   
+         body {
+        background-color: #1c1c1c;
+        color: #e6e6e6;
+        font-family: "Fira Code", monospace;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .terminal {
+        background: linear-gradient(145deg, #2c2c2c, #1a1a1a);
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 4px 4px 8px #141414, -4px -4px 8px #2a2a2a;
+        max-width: 900px;
+        width: 100%;
+        height: 500px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .output {
+        background-color: #121212;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 15px;
+        height: 100%;
+        overflow-y: auto;
+        color: #c9c9c9;
+        font-size: 14px;
+        line-height: 1.5;
+        box-shadow: inset 3px 3px 6px #0e0e0e, inset -3px -3px 6px #161616;
+    }
+
+    .output div {
+        margin-bottom: 5px;
+    }
+
+    .command-line {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .command-line input {
+        flex: 1;
+        background-color: #1e1e1e;
+        border: 2px solid #333;
+        border-radius: 8px;
+        padding: 10px;
+        color: #e6e6e6;
+        font-size: 14px;
+        outline: none;
+        transition: border-color 0.3s ease, background-color 0.3s ease;
+        box-shadow: inset 2px 2px 5px #141414, inset -2px -2px 5px #222;
+    }
+
+    .command-line input:focus {
+        border-color: #007bff;
+        background-color: #292929;
+    }
+
+    .command-line button {
+        background-color: #007bff;
+        border: none;
+        border-radius: 8px;
+        color: white;
+        padding: 10px 20px;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 2px 2px 5px #0d0d0d, -2px -2px 5px #333;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .command-line button:hover {
+        background-color: #0056b3;
+        box-shadow: 2px 2px 10px #0a0a0a, -2px -2px 10px #444;
+    }
+
+    .command-line button:active {
+        background-color: #003f8a;
+        box-shadow: inset 2px 2px 5px #111, inset -2px -2px 5px #333;
+    }
+
+    /* Scrollbar Styling */
+    .output::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .output::-webkit-scrollbar-thumb {
+        background: #444;
+        border-radius: 10px;
+    }
+
+    .output::-webkit-scrollbar-thumb:hover {
+        background: #666;
+    }
+
+
+    </style>
+</head>
+<body>
+    <div class="terminal">
+        <div class="output" id="output"></div>
+        <div class="command-line">
+            <input type="text" id="commandInput" placeholder="Enter a command" />
+            <button onclick="executeCommand()">Run</button>
+        </div>
+    </div>
+    <script>
+        function getTimestamp() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            return `[${hours}:${minutes}:${seconds}]`;
+        }
+        
+        function executeCommand() {
+            const commandInput = document.getElementById("commandInput");
+            const output = document.getElementById("output");
+            const command = commandInput.value.trim();
+            commandInput.value = "";
+        
+            if (!command) return;
+        
+            let response = "";
+            const [action, ...args] = command.split(" ");
+        
+            switch (action.toLowerCase()) {
+
+                case "whatisyourname":
+                     response = `
+                     My name is Aasim Ai
+                     `
+                     break;
+
+                case "help":
+                case "dir":
+                    response = `
+        Commands:
+        ---Y--- add <name> <IN> <OUT> <Commission>: Add a new record.
+        ---Y--- view: View all records.
+        ---Y--- summary: Show totals (IN, OUT, Commission).
+        ---Y--- clear: Clear the terminal.
+        ---Y--- cls: Clear the screen (same as clear).
+        ---Y--- echo,print <message>: Repeat the provided message.
+        ---Y--- count: Count in email context.
+        ---Y--- about: Show information about Aasim.
+        ---Y--- help: Show this help message.
+        ---Y--- short key : all short key avbele+-
+        ---Y--- ai:Your help in also
+        ---Y--- RULE: No space no writw
+        ---N--- Error coad #M420
+        `;
+                    break;
+
+                    case "aasim":
+                case "about":
+                    response = `
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        About Aasim:
+        - Name: Aasim
+        - Skills: Developer | Designer | Innovator
+        - Email: gameaasim931@gmail.com
+        - GitHub: [aasim66](https://github.com/aasim66)
+        - Instagram: [Mr_Aasim](https://instagram.com/Mr_Aasim)
+        - Motto: "Code with passion, create with purpose."
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        `;
+                    break;
+
+                    case "time":
+                response = `${getTimestamp()}`
+                break;
+
+                         //short cut key 
+                             case "shortkey":
+                              case "short":
+                              case "key" :
+                                 response =`
+                         
+                                 ~--S--~ clear : cls
+                                 ~--S--~ Help : dir
+                                 ~--S--~ About : aasim
+                                 ~--S--~ Echo : print,p
+                                 ~--S--~ summary : sum
+                                 ~--S--~ View : v
+                                 ~--S--~ Add : add
+                                 ~--S--~ Rule : r
+                                     ~--AASIM--~ By aasim ~--AASIM--~
+                                 `
+                                 break;
+                    // Ai
+                case "gotoai":
+                   response = "Welcom Ai"
+                   break;
+
+                case "hi":
+                    response = `
+                    Hi
+                    How are you?
+                    `
+                    break;
+
+                case "howareyou":
+                response = `
+                I am fine
+                `
+                break;
+
+                case "add":
+                case "add":
+                    if (args.length < 4) {
+                        response = "Error: Invalid syntax. Use: add <name> <IN> <OUT> <Commission>";
+                    } else {
+                        const [name, inValue, outValue, commission] = args;
+                        records.push({
+                            name,
+                            value1: parseFloat(inValue) || 0,
+                            pgIn: parseFloat(outValue) || 0,
+                            value3: parseFloat(commission) || 0,
+                        });
+                        localStorage.setItem("records", JSON.stringify(records));
+                        response = `Record added: ${name}, IN: ${inValue}, OUT: ${outValue}, Commission: ${commission}`;
+                    }
+                    break;
+        
+                case "view":
+                case "v":
+                    if (records.length === 0) {
+                        response = "No records available.";
+                    } else {
+                        response = records
+                            .map(
+                                (record) =>
+                                    `Name: ${record.name}, IN: ${record.value1}, OUT: ${record.pgIn}, Commission: ${record.value3}`
+                            )
+                            .join("\n");
+                    }
+                    break;
+        
+                case "summary":
+                case "sum":
+                    const totalIN = records.reduce((sum, r) => sum + (r.value1 || 0), 0).toFixed(2);
+                    const totalOUT = records.reduce((sum, r) => sum + (r.pgIn || 0), 0).toFixed(2);
+                    const totalCommission = records.reduce((sum, r) => sum + (r.value3 || 0), 0).toFixed(2);
+                    response = `
+        Summary:
+        - Total Records: ${records.length}
+        - Total IN: ${totalIN}
+        - Total OUT: ${totalOUT}
+        - Total Commission: ${totalCommission}
+        `;
+                    break;
+        
+                case "clear":
+                case "cls":
+                    output.innerHTML = "";
+                    return;
+
+                
+                case "echo":
+                case "print":
+                case "p":
+                    if (args.length === 0) {
+                        response = "Error: No message provided. Usage: echo <message>";
+                    } else {
+                        response = args.join(" ");
+                    }
+                    break;
+
+                case "email":
+                    response =`
+                    It is my email Id :~: Gameaasim931@gmail.com
+                    `
+                    break;
+                
+                //html coad
+                case "url":
+                case "dataenteryform":
+                case "sourcecoad":
+                response =`
+                File url :~: https://viruseofaasimmadeaasim.on.drv.tw/www.file.in/aasim.html
+                Time Url :~: https://viruseofaasimmadeaasim.on.drv.tw/aasim.in/a.html
+                `
+                break;
+                //rule 
+                case "rule":
+                case "r":
+                response = `
+                no space no write
+                `
+                break;
+
+                default:
+                    response = `Unknown command: ${action}. Type 'help' for a list of commands.`;
+            }
+        
+            output.innerHTML += `
+                <div>
+                    <span style="color: gray;">${getTimestamp()} ERROR </span>> ${command}
+                </div>
+                <div>${response.replace(/\n/g, "<br>")}</div>
+            `;
+            output.scrollTop = output.scrollHeight;
+        }
+        
+       //------------------|-THE END-|-------------------\\ 
+    </script>
+
+
+
+</body>
+</html>
+   
